@@ -1,3 +1,4 @@
+# -*- utf-8 -*-
 from math import ceil
 import json
 
@@ -6,14 +7,12 @@ def rewrite_line(l):
   '''
   A FUNCTION THAT WILL REMOVE ALL WHITESPACE
   AT THE END AND BEGINING OF LINES AND REWRITE IT WITH 
-  TAB DELIMITERS.
+  TAB DELIMITERS AND ALL-CAPS.
   '''
   l = l.decode("utf-8")
   l = l.strip()
   l = l.upper()
   l = l.split('\",\"')
-# -*- utf-8 -*-
-#  print l[len(l)-1]
   for pos in range(len(l)):
     l[pos] = l[pos].strip()
     l[pos] = l[pos].replace('\"', "")
@@ -42,9 +41,9 @@ for a in range(0, len(lines)):
 fo.close()
 
 
-### OPEN NEW FILE AND WRITE THE NEW TABLE ON IT, WITH AN APPENDIX TO THE NAME IN THE FORM OF _new.csv ###
-new_file = f.replace(".csv", "_new.csv")
-fo = open(new_file, "w")
+### OPEN NEW FILE AND WRITE THE NEW TABLE ON IT, WITH AN APPENDIX TO THE NAME IN THE FORM OF _clean.csv ###
+new_file = f.replace(".csv", "_clean.csv")
+fo = open(f, "w")
 for i in range(len(lines)):
   if i < len(lines)-1:
     fo.write(lines[i] + "\n")
