@@ -1,5 +1,8 @@
+# -*- utf-8 -*-
 from math import ceil
 import json
+import os
+import os.path
 
 ### FUNCTIONS ###
 def rewrite_line(l):
@@ -12,8 +15,6 @@ def rewrite_line(l):
   l = l.strip()
   l = l.upper()
   l = l.split('\",\"')
-# -*- utf-8 -*-
-#  print l[len(l)-1]
   for pos in range(len(l)):
     l[pos] = l[pos].strip()
     l[pos] = l[pos].replace('\"', "")
@@ -23,13 +24,20 @@ def rewrite_line(l):
 
 
 
-### VARIABLES ###
-Courses = {}       ### THIS WILL CONTAIN THE INFORMATION ABOUT THE COURSES
-Labs = {}          ### THIS WILL CONTAIN THE INFORMATION ABOUT THE LABS
 
 
-### MAIN ###
 
+
+
+
+
+#####################################################################
+#####################################################################
+###                                                               ###
+###                           MAIN                                ###
+###                                                               ###
+#####################################################################
+#####################################################################
 
 ### OBTAIN ALL LINES OF THE .CSV FILE AND PUT THEM IN A TAB SEPARATED FORMAT, IN ALL-CAPS, WITH NO QUOTATION MARKS ###
 f = raw_input("Enter file to clean:\t")
@@ -51,6 +59,31 @@ for i in range(len(lines)):
   else:
     fo.write(lines[i])
 fo.close()
+
+
+
+
+files = []
+Path = os.listdir(".")
+for path in Path:
+  path = os.path.abspath(path)
+  if os.path.isfile(path):
+    files.append(path.split("\\")[-1])
+
+if "output_json.csv" not in files:
+  Courses = {}
+  Labs = {}
+else:
+  source = json.load("output_json.csv")
+  Courses = source[0]
+  Labs = source[1]
+  
+
+
+
+
+
+
 
 #######################################################
 ### SET OF COORDINATES FOR INFORMATION IN EACH LINE ###
@@ -101,17 +134,17 @@ for a in range(1, len(lines)):
   year = ceil(float(lines[a][3])/2)
   year = int(year)
   if area not in Labs.keys():
-    Labs[area] = {tut: {year: {"Calidad": lines[a][19], "Dedicacion": lines[a][20], "Ambiente": lines[a][21], "Aprendizaje": lines[a][22], "Trato": lines[a][23]}}}
+    Labs[area] = {tut: {year: {"Calidad": (lines[a][19], lines[a][0]), "Dedicacion": (lines[a][20], lines[a][0]), "Ambiente": (lines[a][21], lines[a][0]), "Aprendizaje": (lines[a][22], lines[a][0]), "Trato": (lines[a][23], lines[a][0])}}}
   elif tut not in Labs[area].keys():
-    Labs[area][tut] = {year: {"Calidad": lines[a][19], "Dedicacion": lines[a][20], "Ambiente": lines[a][21], "Aprendizaje": lines[a][22], "Trato": lines[a][23]}}
+    Labs[area][tut] = {year: {"Calidad": (lines[a][19], lines[a][0]), "Dedicacion": (lines[a][20], lines[a][0]), "Ambiente": (lines[a][21], lines[a][0]), "Aprendizaje": (lines[a][22], lines[a][0]), "Trato": (lines[a][23], lines[a][0])}}
   elif year not in Labs[area][tut].keys():
-    Labs[area][tut][year] = {"Calidad": lines[a][19], "Dedicacion": lines[a][20], "Ambiente": lines[a][21], "Aprendizaje": lines[a][22], "Trato": lines[a][23]}
+    Labs[area][tut][year] = {"Calidad": (lines[a][19], lines[a][0]), "Dedicacion": (lines[a][20], lines[a][0]), "Ambiente": (lines[a][21], lines[a][0]), "Aprendizaje": (lines[a][22], lines[a][0]), "Trato": (lines[a][23], lines[a][0])}
   else:
-    Labs[area][tut][year]["Calidad"].append(lines[a][19])
-    Labs[area][tut][year]["Dedicacion"].append(lines[a][20])
-    Labs[area][tut][year]["Ambiente"].append(lines[a][21])
-    Labs[area][tut][year]["Aprendizaje"].append(lines[a][22])
-    Labs[area][tut][year]["Trato"].append(lines[a][23])
+    Labs[area][tut][year]["Calidad"].append((lines[a][19], lines[a][0]))
+    Labs[area][tut][year]["Dedicacion"].append((lines[a][20], lines[a][0]))
+    Labs[area][tut][year]["Ambiente"].append((lines[a][21], lines[a][0]))
+    Labs[area][tut][year]["Aprendizaje"].append((lines[a][22], lines[a][0]))
+    Labs[area][tut][year]["Trato"].append((lines[a][23], lines[a][0]))
     
   
 for a in Labs.keys():
