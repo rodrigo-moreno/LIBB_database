@@ -102,6 +102,7 @@ for a in range(len(lines()):
 ### I PROBABLY NEED TO CHANGE THIS INTO A FUNCTION ###
 for a in range(1, len(lines)):
   add.tutor(lines[a])
+  ### I STILL NEED SOMETHING SIMILAR FOR Courses ###
  
 
  
